@@ -23,11 +23,44 @@ const { NotImplementedError } = require('../extensions/index.js');
  *  [1, 1, 1]
  * ]
  */
-function minesweeper(/* matrix */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+function minesweeper(matrix) {
+	let map = Array(matrix.length);
+
+	for (let y = 0; y < matrix.length; y++) {
+		map[y] = [];
+		for (let x = 0; x < matrix[0].length; x++) {
+			map[y][x] = 0;
+		}
+	}
+
+	for (let y = 0; y < matrix.length; y++) {
+		for (let x = 0; x < matrix[y].length; x++) {
+			console.log(matrix[y][x], y, x);
+			if (matrix[y][x]) {
+				if (map[y][x + 1] !== undefined && matrix[y][x + 1] === false) map[y][x + 1] += 1;
+				if (map[y][x - 1] !== undefined && matrix[y][x - 1] === false) map[y][x - 1] += 1;
+
+				if (map[y + 1] !== undefined) {
+					if (matrix[y + 1][x] === false) map[y + 1][x] += 1;
+					if (map[y + 1][x + 1] !== undefined && matrix[y + 1][x + 1] === false) map[y + 1][x + 1] += 1;
+					if (map[y + 1][x - 1] !== undefined && matrix[y + 1][x - 1] === false) map[y + 1][x - 1] += 1;
+				}
+
+				if (map[y - 1] !== undefined) {
+					if (matrix[y - 1][x] === false) map[y - 1][x] += 1;
+					if (map[y - 1][x + 1] !== undefined && matrix[y - 1][x + 1] === false) map[y - 1][x + 1] += 1;
+					if (map[y - 1][x - 1] !== undefined && matrix[y - 1][x - 1] === false) map[y - 1][x - 1] += 1;
+				}
+
+				map[y][x] = 1;
+			}
+		}
+
+	}
+
+	return map;
 }
 
 module.exports = {
-  minesweeper
+	minesweeper
 };
